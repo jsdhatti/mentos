@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+var process = require('process');
 
 var envs = {
 	dev: {
