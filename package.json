@@ -23,7 +23,8 @@
     "grunt": "^0.4.5",
     "lodash": "^4.5.1",
     "moment": "^2.11.2",
-    "mongoose": "^4.4.5"
+    "mongoose": "^4.4.5",
+    "shelljs": "^0.6.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^1.0.0",

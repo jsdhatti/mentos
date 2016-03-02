@@ -12,7 +12,6 @@ describe('Git Task', function() {
   it('does x when y', function(){
     // Now... Test!
 
-    var git = require('./index');
   });
   after(function() {
     // after() is run after all your tests have completed. Do teardown here.
