@@ -17,6 +17,8 @@ db.init().then(()=>{
 		app.listen(PORT, ()=>{
 			let env = config.env;
 			console.log(`Listening at port ${PORT} on ${env} environement`);
-		});
+
+      var git = require('./modules/git/index');
+    });
 	});
 });
