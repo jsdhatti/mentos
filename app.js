@@ -16,7 +16,7 @@ db.init().then(()=>{
 	db.setupData().then(()=>{
 		app.listen(PORT, ()=>{
 			let env = config.env;
-			console.log(`Listening at port 3000 on ${env} environement`);
+			console.log(`Listening at port ${PORT} on ${env} environement`);
 		});
 	});
 });
