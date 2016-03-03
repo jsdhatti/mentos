@@ -1,7 +1,4 @@
-/**
- * Created by sharique on 3/3/16.
- */
-
+'use strict';
 
 var shell = require('shelljs');
 
@@ -12,3 +9,5 @@ class Shell {
   }
 
 }
+
+module.exports = Shell;

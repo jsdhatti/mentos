@@ -1,6 +1,4 @@
-/**
- * Created by sharique on 3/3/16.
- */
+'use strict';
 
 var BaseTask = require('./../../lib/BaseTask');
 var Shell = require('../../helper/Shell');
@@ -14,8 +12,15 @@ class ShellTask extends BaseTask {
   }
 
   start(){
-    this.log(`Starting to execute task: ${this.name}.`);
-    Shell.cmd().exec(this.command);
+    return new Promise((resolve, reject)=>{
+			this.log(`Starting to execute task: ${this.name}.`);
+			Shell.cmd().exec(this.command, {silent: true}, (code, stdout, stderr)=>{
+				console.log(code);
+				console.log("out",stdout);
+				console.error("err",stderr);
+				resolve(stdout);
+			});
+		});
   }
 
   end(){
