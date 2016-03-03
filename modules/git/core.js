@@ -15,8 +15,7 @@ class GitTask extends BaseTask{
     super(name);
     this.credentials = credentials;
     this.opType = opts.opType;          // Push, Pull, etc
-    this.repoHost = opts.repoHost;      // Github, BitBucket, etc
-    this.branch = opts.branch;          // Github, BitBucket, etc
+    this.branch = opts.branch || 'master';          // Github, BitBucket, etc
     this.folderPath = opts.folderPath;
   }
 
@@ -36,57 +35,29 @@ class GitTask extends BaseTask{
   }
 
   pull(){
-    if(!shell.which('git'))
+		if(!shell.which('git'))
       throw new Error('Git is not installed. apt-get install git');
+
+		console.log('Initiating pull');
 
     // Path changed
     shell.cd(this.folderPath);
 
-    // Check if cloned
-    let isCloned = (shell.exec('ls -a | grep .git', {silent:true}).stdout)? true : false;
+		let url = repoUrl(this.credentials);
+		let cmd = `git pull ${url} ${this.branch}`;
+		console.log('executing cmd: ',cmd);
 
-    switch(this.repoHost){
-      case 'github':
-        if(isCloned)
-          this.pullGithub();
-        else
-          this.cloneGithub();
-        break;
-      case 'bitbucket':
-        if(isCloned)
-          this.pullBitbucket();
-        else
-          this.cloneBitbucket();
-        break;
-    }
+		shell.exec(cmd, function(code, stdout, stderr) {
+			console.log('Exit code:', code);
+			console.log('cmd output:', stdout);
+			console.log('Program stderr:', stderr);
+		});
   }
 
-  pullGithub(){
-
-  }
-
-  cloneGithub(){
-
-  }
-
-  pullBitbucket(){
-    console.log('pulling');
-
-    let url = bitbucketUrl(this.credentials);
-    let cmd = `git pull ${url} ${this.branch}`;
-    console.log('executing cmd: ',cmd);
-
-    shell.exec(cmd, function(code, stdout, stderr) {
-      console.log('Exit code:', code);
-      console.log('cmd output:', stdout);
-      console.log('Program stderr:', stderr);
-    });
-  }
-
-  cloneBitbucket(){
+  clone(){
     console.log('cloning');
 
-    let url = bitbucketUrl(this.credentials);
+    let url = repoUrl(this.credentials);
     let cmd = `git clone ${url}`;
     console.log('executing cmd: ',cmd);
 
@@ -102,9 +73,16 @@ class GitTask extends BaseTask{
   }
 }
 
-function bitbucketUrl(creds){
+function repoUrl(creds){
   let url = creds.url.split('@');
+
+	// Check if username is attached
+	if(url.length === 1)
+		return url.join('');
+
+	// Attached pwd
   url[0] += ':' + creds.password;
+
   return url.join('@');
 }
 

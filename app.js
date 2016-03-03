@@ -19,7 +19,7 @@ db.init().then(()=>{
 			console.log(`Listening at port ${PORT} on ${env} environement`);
 
 			//var git = require('./modules/git/index');
-			require('./modules/shell')('cd helper')
+			/*require('./modules/shell')('cd helper')
 				.then((response) => {
 					require('./modules/shell')('dir helper')
 						.then((response) => {
@@ -29,7 +29,7 @@ db.init().then(()=>{
 						});
 				}, (err) =>{
 					console.error(err);
-				});
+				});*/
 		});
 	});
 });
