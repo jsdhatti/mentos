@@ -1,6 +1,6 @@
 
 var assert = require('assert');
-var ShellTask = require('../lib/ShellTask');
+var ShellTask = require('../modules/shell/ShellTask');
 
 
 describe('ShellTask test', function() {

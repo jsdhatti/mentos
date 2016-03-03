@@ -1,6 +1,6 @@
 'use strict';
 
-var GitTask = require('./core');
+var GitTask = require('./GitTask');
 
 var creds = {
   url: 'https://tkhank@bitbucket.org/mentosTeam/mentos.git',
