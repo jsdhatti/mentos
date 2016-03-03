@@ -17,13 +17,6 @@ db.init().then(()=>{
 		app.listen(PORT, ()=>{
 			let env = config.env;
 			console.log(`Listening at port ${PORT} on ${env} environement`);
-
-			// var git = require('./modules/git/index');
-			var Shell = require('./modules/shell/index');
-			var npm = new Shell("my npm task",'ls -l');
-			npm.start().then(()=>{
-
-			});
 		});
 	});
 });

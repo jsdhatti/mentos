@@ -11,11 +11,12 @@ describe.only('Shell Task', function() {
 		var command = new ShellTask('ls command', 'ls -l');
 		return command.start()
 			.then(function(result){
+				console.log(result.output);
 				assert.equal(0, result.code);
 			});
 	});
 
-	it('should not allow [some] command', function(){
+	it('should not allow [some] command', function(done){
 
 		var command = new ShellTask('some command', 'some');
 		return command.start()
@@ -23,7 +24,7 @@ describe.only('Shell Task', function() {
 				assert.equal(0, result.code);
 			}, function(result){
 				assert.notEqual(0, result.code);
-			});
+			})
 
 	});
 
