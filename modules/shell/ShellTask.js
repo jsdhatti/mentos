@@ -15,10 +15,10 @@ class ShellTask extends BaseTask {
     return new Promise((resolve, reject)=>{
 			this.log(`Starting to execute task: ${this.name}.`);
 			Shell.cmd().exec(this.command, {silent: true}, (code, stdout, stderr)=>{
-				console.log(code);
-				console.log("out",stdout);
-				console.error("err",stderr);
-				resolve(stdout);
+				if(code !== 0){
+          return reject({ code:code, output:stderr });
+        }
+        return resolve({ code:code, output:stdout });
 			});
 		});
   }
