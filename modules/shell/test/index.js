@@ -1,18 +1,30 @@
 'use strict';
 
 var assert = require('assert');
+var ShellTask = require('../ShellTask');
 
-describe('Shell Task', function() {
-	before(function(){
-		// The before() callback gets run before all tests in the suite. Do one-time setup here.
+
+describe.only('Shell Task', function() {
+
+	it('should pass [ls] command', function(){
+
+		var command = new ShellTask('ls command', 'ls -l');
+		return command.start()
+			.then(function(result){
+				assert.equal(0, result.code);
+			});
 	});
-	beforeEach(function(){
-		// The beforeEach() callback gets run before each test in the suite.
+
+	it('should not allow [some] command', function(){
+
+		var command = new ShellTask('some command', 'some');
+		return command.start()
+			.then(function(result){
+				assert.equal(0, result.code);
+			}, function(result){
+				assert.notEqual(0, result.code);
+			});
+
 	});
-	it('does x when y', function(){
-		// Now... Test!
-	});
-	after(function() {
-		// after() is run after all your tests have completed. Do teardown here.
-	});
+
 });

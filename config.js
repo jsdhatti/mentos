@@ -7,12 +7,12 @@ var envs = {
 	dev: {
 		env: 'dev',
 		db: 'mentos-dev-db',
-		hostname: 'localhost'
+		hostname: '127.0.0.1'
 	},
 	prod: {
 		env: 'prod',
 		db: 'mentos-prod-db',
-		hostname: 'localhost'
+		hostname: '127.0.0.1'
 	}
 };
 
