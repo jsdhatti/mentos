@@ -12,7 +12,7 @@ var gitTask = new GitTask('my pull', creds, {
   opType: 'pull',
   repoHost: 'bitbucket',
   branch: 'develop',
-  folderPath: '/Users/talhakhan/Talha/Programming/Web-Projects/test'
+  folderPath: '/home/talha/Talha/Learning/exp/mentos'
 });
 
 gitTask.start();

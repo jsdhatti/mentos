@@ -11,7 +11,9 @@ describe('Git Task', function() {
   });
   it('does x when y', function(){
     // Now... Test!
+		var shell = require('shelljs');
 
+		var c = shell.cd('/home/talha/Talha/Learning/mentos');
   });
   after(function() {
     // after() is run after all your tests have completed. Do teardown here.

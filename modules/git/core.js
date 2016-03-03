@@ -14,24 +14,20 @@ class GitTask extends BaseTask{
   constructor(name, credentials, opts){
     super(name);
     this.credentials = credentials;
-    this.opType = opts.opType;          // Push, Pull, etc
+    this.opType = opts.opType;          // Clone, Pull, etc
     this.branch = opts.branch || 'master';          // Github, BitBucket, etc
     this.folderPath = opts.folderPath;
   }
 
   start(){
     switch(this.opType){
-      case 'push':
-        this.push();
+      case 'clone':
+        this.clone();
         break;
       case 'pull':
         this.pull();
         break;
     }
-  }
-
-  push(){
-    console.log('pushing');
   }
 
   pull(){
@@ -40,8 +36,10 @@ class GitTask extends BaseTask{
 
 		console.log('Initiating pull');
 
-    // Path changed
-    shell.cd(this.folderPath);
+		let _path = this.folderPath;
+
+    // Change path
+    shell.cd(_path);
 
 		let url = repoUrl(this.credentials);
 		let cmd = `git pull ${url} ${this.branch}`;
@@ -55,17 +53,28 @@ class GitTask extends BaseTask{
   }
 
   clone(){
-    console.log('cloning');
+		console.log('cloning');
 
-    let url = repoUrl(this.credentials);
-    let cmd = `git clone ${url}`;
-    console.log('executing cmd: ',cmd);
+		let repoName = this.credentials.url.split('/');
+		repoName = repoName[repoName.length - 1].split('.git')[0];
+		let _path = `${this.folderPath}/${repoName}`;
 
-    shell.exec(cmd, function(code, stdout, stderr) {
-      console.log('Exit code:', code);
-      console.log('cmd output:', stdout);
-      console.log('Program stderr:', stderr);
-    });
+		console.log("path: ",_path);
+
+		// Create directory if its not there
+		shell.exec(`mkdir -p ${_path}`,()=>{
+			shell.cd(_path);
+
+			let url = repoUrl(this.credentials);
+			let cmd = `git clone ${url} .`;
+			console.log('executing cmd: ',cmd);
+
+			shell.exec(cmd, function(code, stdout, stderr) {
+				console.log('Exit code:', code);
+				console.log('cmd output:', stdout);
+				console.log('Program stderr:', stderr);
+			});
+		});
   }
 
   end(){
@@ -74,7 +83,7 @@ class GitTask extends BaseTask{
 }
 
 function repoUrl(creds){
-  let url = creds.url.split('@');
+	let url = creds.url.split('@');
 
 	// Check if username is attached
 	if(url.length === 1)
