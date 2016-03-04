@@ -21,14 +21,10 @@ db.init().then(()=>{
 			var Noti = require('./modules/notification');
 			var notification = new Noti('slack noti', {
 				webHook : 'https://hooks.slack.com/services/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',
-				slackChannel:'#integration-alert'
+				slackChannel:'#integration-alert',
+				message : 'Build Initialized'
 			});
-			notification.start('Build Initialized')
-				.then((response)=>{
-					console.log(response.response.statusCode, response.response.body);
-				},(err)=>{
-					console.error(err);
-				});
+			notification.start();
 
 		});
 	});

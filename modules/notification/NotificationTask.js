@@ -9,18 +9,19 @@ class NotificationTask extends BaseTask {
         this.name = name;
         this.webHook = opts.webHook;
         this.slackChannel = opts.slackChannel;
+        if(!message){
+            throw new Error('No text specified');
+        }
+        this.message = opts.message;
     }
 
     start(message){
         return new Promise((resolve, reject)=> {
             this.log(`Starting to execute task: ${this.name}.`);
-            if(!message){
-                return reject(new Error('No text specified'));
-            }
             let postData = {
                 channel : this.slackChannel,
                 username : 'Mentos',
-                text : message,
+                text : this.message,
                 icon_emoji:':ghost:'
             };
             request({
