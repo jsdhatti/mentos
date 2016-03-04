@@ -9,7 +9,7 @@ class ShellTask extends BaseTask {
     this.name = name;
     /*String command like: ls -l | grep ssh*/
     this.command = command;
-    this.opts = opts;
+    this.opts = opts || {};
   }
 
   start(){
