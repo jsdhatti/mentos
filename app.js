@@ -18,7 +18,18 @@ db.init().then(()=>{
 			let env = config.env;
 			console.log(`Listening at port ${PORT} on ${env} environement`);
 
-      var s = require('./modules/git/index');
+			var Noti = require('./modules/notification');
+			var notification = new Noti('slack noti', {
+				webHook : 'https://hooks.slack.com/services/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',
+				slackChannel:'#integration-alert'
+			});
+			notification.start('Build Initialized')
+				.then((response)=>{
+					console.log(response.response.statusCode, response.response.body);
+				},(err)=>{
+					console.error(err);
+				});
+
 		});
 	});
 });
