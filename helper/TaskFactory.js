@@ -16,9 +16,10 @@ function create(item){
       username: props.user,
       password: props.pwd
     }, {
+			url: props.url,
       opType: 'pull',
       branch: props.branch,
-      folderPath: `${path.stepBack(_rootpath, 1)}/testground`
+      folderPath: `${path.stepBack(_rootpath, 1)}/testground/angular-listview`
     });
   }else if(type === 'shell'){
     task = new ShellTask(item.id, item.name , props.command);
