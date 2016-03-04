@@ -1,6 +1,8 @@
 'use strict';
 
-var GitTask = require('./GitTask');
+module.exports = require('./GitTask');
+
+/*var GitTask = require('./GitTask');
 var _rootPath = require('../../app').rootpath;
 var path = require('../../helper/path');
 
@@ -17,8 +19,7 @@ var gitTask = new GitTask('my pull', creds, {
   folderPath: `${path.stepBack(_rootPath, 1)}/testground`
 });
 
-
-gitTask.start();
+gitTask.start();*/
 
 /*
 var taskRunner = new TaskRunner();

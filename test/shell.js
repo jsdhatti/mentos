@@ -8,7 +8,7 @@ describe.only('Shell Task', function() {
 
 	it('should pass [ls] command', function(){
 
-		var command = new ShellTask('ls command', 'ls -l');
+		var command = new ShellTask(0, 'ls command', 'ls -l', {path: './modules'});
 		return command.start()
 			.then(function(result){
 				console.log(result.output);
@@ -16,9 +16,9 @@ describe.only('Shell Task', function() {
 			});
 	});
 
-	it('should not allow [some] command', function(done){
+	it.skip('should not allow [some] command', function(done){
 
-		var command = new ShellTask('some command', 'some');
+		var command = new ShellTask(1, 'some command', 'some');
 		return command.start()
 			.then(function(result){
 				assert.equal(0, result.code);

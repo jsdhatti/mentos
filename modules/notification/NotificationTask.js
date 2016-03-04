@@ -4,8 +4,8 @@ var BaseTask = require('../../lib/BaseTask');
 var request = require('request');
 
 class NotificationTask extends BaseTask {
-    constructor(name, opts){
-        super(name);
+    constructor(id, name, opts){
+        super(id, name);
         this.name = name;
         this.webHook = opts.webHook;
         this.slackChannel = opts.slackChannel;
@@ -16,6 +16,7 @@ class NotificationTask extends BaseTask {
     }
 
     start(message){
+        super.start();
         return new Promise((resolve, reject)=> {
             this.log(`Starting to execute task: ${this.name}.`);
             let postData = {

@@ -11,8 +11,8 @@ var BaseTask = require('../../lib/BaseTask');
 var Shell = require('../../lib/Shell');
 
 class GitTask extends BaseTask{
-  constructor(name, credentials, opts){
-    super(name);
+  constructor(id, name, credentials, opts){
+    super(id, name);
     this.credentials = credentials;
     this.opType = opts.opType;                      // Clone, Pull, etc
     this.branch = opts.branch || 'master';          // Github, BitBucket, etc
@@ -20,6 +20,7 @@ class GitTask extends BaseTask{
   }
 
   start(){
+    super.start();
     if(this.opType == 'clone'){
       this.clone();
     }else if(this.opType == 'pull'){
