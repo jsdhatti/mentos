@@ -8,30 +8,27 @@
 */
 
 var BaseTask = require('../../lib/BaseTask');
-var shell = require('shelljs');
+var Shell = require('../../lib/Shell');
 
 class GitTask extends BaseTask{
   constructor(name, credentials, opts){
     super(name);
     this.credentials = credentials;
-    this.opType = opts.opType;          // Clone, Pull, etc
+    this.opType = opts.opType;                      // Clone, Pull, etc
     this.branch = opts.branch || 'master';          // Github, BitBucket, etc
     this.folderPath = opts.folderPath;
   }
 
   start(){
-    switch(this.opType){
-      case 'clone':
-        this.clone();
-        break;
-      case 'pull':
-        this.pull();
-        break;
+    if(this.opType == 'clone'){
+      this.clone();
+    }else if(this.opType == 'pull'){
+      this.pull();
     }
   }
 
   pull(){
-		if(!shell.which('git'))
+		if(!Shell.cmd().which('git'))
       throw new Error('Git is not installed. apt-get install git');
 
 		console.log('Initiating pull');
@@ -39,42 +36,43 @@ class GitTask extends BaseTask{
 		let _path = this.folderPath;
 
     // Change path
-    shell.cd(_path);
+    Shell.cmd().cd(_path);
 
 		let url = repoUrl(this.credentials);
 		let cmd = `git pull ${url} ${this.branch}`;
-		console.log('executing cmd: ',cmd);
+		console.log(`executing cmd ${cmd} \n in pwd ${Shell.cmd().pwd()}`);
 
-		shell.exec(cmd, function(code, stdout, stderr) {
-			console.log('Exit code:', code);
-			console.log('cmd output:', stdout);
-			console.log('Program stderr:', stderr);
-		});
+		Shell.exec(cmd)
+      .then((result)=>{
+        console.log('Exit code:', result.code);
+        console.log('cmd output:', result.out);
+      });
   }
 
   clone(){
-		console.log('cloning');
+		this.log('cloning');
 
 		let repoName = this.credentials.url.split('/');
 		repoName = repoName[repoName.length - 1].split('.git')[0];
 		let _path = `${this.folderPath}/${repoName}`;
 
-		console.log("path: ",_path);
+		this.log(`${_path}`);
 
 		// Create directory if its not there
-		shell.exec(`mkdir -p ${_path}`,()=>{
-			shell.cd(_path);
+		Shell.exec(`mkdir -p ${_path}`)
+      .then(()=>{
+        Shell.cmd().cd(_path);
 
-			let url = repoUrl(this.credentials);
-			let cmd = `git clone ${url} .`;
-			console.log('executing cmd: ',cmd);
+        let url = repoUrl(this.credentials);
+        let cmd = `git clone ${url} .`;
+        console.log('executing cmd: ',cmd);
 
-			shell.exec(cmd, function(code, stdout, stderr) {
-				console.log('Exit code:', code);
-				console.log('cmd output:', stdout);
-				console.log('Program stderr:', stderr);
-			});
-		});
+        Shell.exec(cmd)
+          .then((result)=>{
+            console.log('Exit code:', result.code);
+            console.log('cmd output:', result.output);
+        });
+    });
   }
 
   end(){

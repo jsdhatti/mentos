@@ -1,7 +1,7 @@
 'use strict';
 
 var BaseTask = require('./../../lib/BaseTask');
-var Shell = require('../../helper/Shell');
+var Shell = require('../../lib/Shell');
 
 class ShellTask extends BaseTask {
   constructor(name,  command){
