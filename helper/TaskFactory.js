@@ -3,9 +3,9 @@
 const _rootpath = global.rootpath;
 
 var path = require('./path');
-var GitTask = require('../modules/git');
-var ShellTask = require('../modules/shell');
-var NotificationTask = require('../modules/notification');
+var GitTask = require('../lib/GitTask');
+var ShellTask = require('../lib/ShellTask');
+var NotificationTask = require('../lib/NotificationTask');
 
 function create(item){
   var task;

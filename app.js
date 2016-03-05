@@ -67,14 +67,17 @@ db.init().then(()=>{
 			};
 
 			var WorkFlow = require('./lib/WorkFlow');
-			var wf = new WorkFlow(a.workFlow);
-			wf.on('doorOpen').then((data)=>{
+			var workFlow = new WorkFlow(a.workFlow);
+
+			workFlow.on('doorOpen').then((data)=>{
 				console.log("open data: ",data);
 			});
-			wf.on('doorClosed').then((data)=>{
+
+			workFlow.on('doorClosed').then((data)=>{
 				console.log("close data: ",data);
 			});
-			wf.execute().then((tasks)=>{
+
+			workFlow.execute().then((tasks)=>{
 				console.log("Build finished ",tasks);
 				process.exit(0)
 			}, (err)=>{
