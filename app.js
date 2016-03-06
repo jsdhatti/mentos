@@ -18,17 +18,7 @@ db.init().then(()=>{
 			let env = config.env;
 			console.log(`Listening at port ${PORT} on ${env} environement`);
 
-			/*var Noti = require('./modules/notification');
-			 var notification = new Noti('slack noti', {
-			 webHook : 'https://hooks.slack.com/services/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',
-			 slackChannel:'#integration-alert',
-			 message : 'Build Initialized'
-			 });
-			 notification.start();
-
-			 });*/
-
-			var a = {
+			var rawTasks = {
 				_id:'some id',
 				workFlow:[
 					{
@@ -67,23 +57,27 @@ db.init().then(()=>{
 			};
 
 			var WorkFlow = require('./lib/WorkFlow');
-			var workFlow = new WorkFlow(a.workFlow);
+			var workFlow = new WorkFlow(rawTasks.workFlow);
 
-			workFlow.on('doorOpen').then((data)=>{
-				console.log("open data: ",data);
-			});
-
-			workFlow.on('doorClosed').then((data)=>{
-				console.log("close data: ",data);
-			});
+			workFlow.on('newtask', (data)=>{
+				console.log("newtask: ",data);
+			}).on('success', (data)=>{
+				console.log("success: ",data);
+			}).on('fail', (data)=>{
+        console.log("fail: ",data);
+      }).on('done', (data)=>{
+        console.log("done: ",data);
+      }).on('log',(data)=>{
+        console.log("logging: ",data);
+      });
 
 			workFlow.execute().then((tasks)=>{
 				console.log("Build finished ",tasks);
-				process.exit(0)
+				process.exit(0);
 			}, (err)=>{
 				console.error("err: ",err);
 				console.info('Build failed');
-				process.exit(0)
+				process.exit(0);
 			});
 		});
 	});
