@@ -19,43 +19,7 @@ db.init().then(()=>{
 			let env = config.env;
 			console.log(`Listening at port ${PORT} on ${env} environement`);
 
-			var rawTasks = {
-				_id:'some id',
-				workFlow:[
-					{
-						id:0,
-						parent:[],
-						name: 'my pull',
-						type:'git',
-						properties:{
-							url:'https://github.com/t-khan-k/angular-listview.git',
-							branch:'develop',
-							user:'hsmsharique',
-							pwd:'hsmsh2912everee'
-						}
-					},
-					{
-						id:1,
-						parent:[0],
-						name: 'my shell1',
-						type:'shell',
-						properties:{
-							command:'npm install',
-							path:'' //can be empty
-						}
-					},
-					{
-						id:2,
-						parent:[0],
-						name: 'my shell2',
-						type:'shell',
-						properties:{
-							command:'bower install',
-							path:'' //can be empty
-						}
-					}
-				]
-			};
+
 
 			var WorkFlow = require('./lib/WorkFlow');
 			var workFlow = new WorkFlow(rawTasks.workFlow);
@@ -65,12 +29,12 @@ db.init().then(()=>{
 			}).on('success', (data)=>{
 				console.log("success: ",data);
 			}).on('fail', (data)=>{
-        console.log("fail: ",data);
-      }).on('done', (data)=>{
-        console.log("done: ",data);
-      }).on('log',(data)=>{
-        console.log("logging: ",data);
-      });
+				console.log("fail: ",data);
+			}).on('done', (data)=>{
+				console.log("done: ",data);
+			}).on('log',(data)=>{
+				console.log("logging: ",data);
+			});
 
 			workFlow.execute().then((tasks)=>{
 				console.log("Build finished ",tasks);

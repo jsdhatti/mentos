@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var ShellTask = require('../modules/shell/ShellTask');
+var ShellTask = require('../lib/ShellTask');
 
 
 describe.only('Shell Task', function() {
