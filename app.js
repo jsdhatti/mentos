@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 const PORT = 3000;
+global.rootpath = __dirname;
 
 db.init().then(()=>{
 	db.setupData().then(()=>{
@@ -83,4 +84,3 @@ db.init().then(()=>{
 	});
 });
 
-global.rootpath = __dirname;

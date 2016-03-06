@@ -2,5 +2,4 @@
 npm-debug.log
 node_modules
 test/results.txt
-logserror.log
-logsconsole.log
+/logs
