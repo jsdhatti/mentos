@@ -17,7 +17,7 @@ db.init('test');
 
 describe.only('User model functional test', ()=> {
 
-  it('Should create user', ()=>{
+  /*it('Should create user', ()=>{
     return User.create(user)
       .then(user => {
         user.toObject().should.have.property('firstName', 'Fake');
@@ -30,7 +30,7 @@ describe.only('User model functional test', ()=> {
       .then(users=>{
         users.length.should.be.greaterThan(0);
       });
-  });
+  });*/
 
   it('Should add project the user with a single cloning task', ()=>{
     var project = {
@@ -53,7 +53,7 @@ describe.only('User model functional test', ()=> {
       ],
       builds : []
     };
-    return User.addProjectToUser({ email : 'test@example.com' }, project)
+    return User.addProjectToUser('56df433e27630d222314d598', 'string')
       .then(user => {
         console.log(user);
         user.projects.length.should.be.equal(0);
@@ -65,9 +65,9 @@ describe.only('User model functional test', ()=> {
 
   });
 
-  after(()=>{
+  /*after(()=>{
     User.removeAll();
-  });
+  });*/
 
 
 });

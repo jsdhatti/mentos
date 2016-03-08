@@ -41,9 +41,9 @@ function find(opts){
 
 function addProjectToUser(query, project){
 
-  return UserModel.findOneAndUpdateAsync(query, {
+  return UserModel.findByIdAndUpdateAsync(query, {
     $addToSet: {
-      projects : project
+      someString : project
     }
   }, { new:true });
 
