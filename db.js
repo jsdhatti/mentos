@@ -1,8 +1,8 @@
 
 var mongoose = require('mongoose');
 
-function init(){
-	mongoose.connect(url());
+function init(env){
+	mongoose.connect(url(env));
 	return new Promise((resolve, reject)=>{
 		mongoose.connection.once('open', ()=>{
 			console.log("DB connected");
@@ -22,8 +22,8 @@ function setupData(){
 	});
 }
 
-function url(){
-	var config = require('./config')();
+function url(env){
+	var config = require('./config')(env);
 	return 'mongodb://' + config.hostname + '/' + config.db;
 }
 

@@ -4,7 +4,7 @@ var assert = require('assert');
 var ShellTask = require('../lib/ShellTask');
 
 
-describe.only('Shell Task', function() {
+describe('Shell Task', function() {
 
 	it('should pass [ls] command', function(){
 

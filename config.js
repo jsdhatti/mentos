@@ -9,6 +9,11 @@ var envs = {
 		db: 'mentos-dev-db',
 		hostname: '127.0.0.1'
 	},
+	test: {
+		env: 'test',
+		db: 'mentos-dev-db-test',
+		hostname: '127.0.0.1'
+	},
 	prod: {
 		env: 'prod',
 		db: 'mentos-prod-db',
@@ -16,7 +21,7 @@ var envs = {
 	}
 };
 
-module.exports = function(){
-	let env = process.argv[2] || 'dev';
+module.exports = function(environment){
+	let env = environment || 'dev';
 	return _.cloneDeep(envs[env]);
 };

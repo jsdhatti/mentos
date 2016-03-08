@@ -5,7 +5,7 @@ var WorkFlow = require('../lib/WorkFlow');
 var Shell = require('../lib/Shell');
 const testingGroundPath = '/home/hsmsharique/work/projects/mentosTesting';
 
-describe.only('Work Flow basics', function() {
+describe('Work Flow basics', function() {
 
   it('should have equal number of tasks from task factory as of raw tasks', function(){
     //console.log('Removing previously cloned projects');

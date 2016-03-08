@@ -12,7 +12,7 @@ var UserSchema = mongoose.Schema({
     lowercase:true,
     required:true
   },
-  fistName:{
+  firstName:{
     type:String
   },
   lastName:{
@@ -26,7 +26,7 @@ var UserSchema = mongoose.Schema({
   salt: String,
   github: {},
   bitbucket:{},
-  project:[
+  projects:[
     {
       name:{
         type:String
@@ -34,6 +34,32 @@ var UserSchema = mongoose.Schema({
       technology:{
         type:String
       },
+      initialization:[
+        {
+          id:{
+            type:Number
+          },
+          name:{
+            type:String
+          },
+          type:{
+            type:String,
+            lowercase:true,
+            enum:['shell', 'git', 'notification']
+          },
+          properties:{
+            url:String,
+            branch:String,
+            user:String,
+            pwd:String,
+            path:String,
+            command:String,
+            webHook:String,
+            slackChannel:String,
+            message:String
+          }
+        }
+      ],
       workFlow:[
         {
           id:{
