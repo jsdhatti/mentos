@@ -17,7 +17,7 @@ db.init('test');
 
 describe.only('User model functional test', ()=> {
 
-  /*it('Should create user', ()=>{
+  it('Should create user', ()=>{
     return User.create(user)
       .then(user => {
         user.toObject().should.have.property('firstName', 'Fake');
@@ -30,19 +30,17 @@ describe.only('User model functional test', ()=> {
       .then(users=>{
         users.length.should.be.greaterThan(0);
       });
-  });*/
+  });
 
-  it('Should add project the user with a single cloning task', ()=>{
+  it('Should add project to the user with a single cloning task', ()=>{
     var project = {
-      name:{
-        type:'Test project'
-      },
+      name:'Test project',
       technology : 'AngularJS',
       initialization:[
         {
           id:0,
           name:'Sample repo clone',
-          type:'git',
+          taskType:'git',
           properties:{
             url:'https://github.com/shakefon/consistency.git',
             opType:'clone',
@@ -50,24 +48,49 @@ describe.only('User model functional test', ()=> {
             branch:'master'
           }
         }
-      ],
-      builds : []
+      ]
     };
-    return User.addProjectToUser('56df433e27630d222314d598', 'string')
+    return User.addProjectToUser({email:'test@example.com'}, project)
       .then(user => {
-        console.log(user);
-        user.projects.length.should.be.equal(0);
+        user.projects.length.should.be.greaterThan(0);
+        user.projects[0].initialization.length.should.be.equal(1);
       });
   });
 
+  it('Should not add project to the user due to incomplete data', ()=>{
+    var project = {
+      technology : 'AngularJS',
+      initialization:[
+        {
+          id:0,
+          name:'Sample repo clone',
+          taskType:'git',
+          properties:{
+            url:'https://github.com/shakefon/consistency.git',
+            opType:'clone',
+            folderPath:'/home/sharique/Work/TestGround',
+            branch:'master'
+          }
+        }
+      ]
+    };
+    return User.addProjectToUser({email:'test@example.com'}, project)
+      .then(user => {
+        user.projects.length.should.be.greaterThan(0);
+        user.projects[0].initialization.length.should.be.equal(1);
+      }, err =>{
+        err.data.length.should.be.greaterThan(0);
+      });
+  });
 
   it.skip('update user', ()=>{
 
+
   });
 
-  /*after(()=>{
+  after(()=>{
     User.removeAll();
-  });*/
+  });
 
 
 });

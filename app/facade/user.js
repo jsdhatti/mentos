@@ -4,12 +4,14 @@
 
 var Promise = require('bluebird');
 var UserModel = require('../modules/user/user.model');
+var Joi = require('joi');
+var ProjectValidator = require('./validationSchemas/project');
+var boom = require('boom');
 
 exports.index = index;
 exports.create = create;
 exports.update = update;
 exports.delete = remove;
-exports.find = find;
 exports.removeAll = removeAll;
 exports.addProjectToUser = addProjectToUser;
 
@@ -18,13 +20,12 @@ function create(payload){
   return user.saveAsync();
 }
 
-function update(payload){
-
-
+function update(query, dataSet){
+  return UserModel.findOneAndUpdateAsync(query, dataSet, { new:true });
 }
 
 function remove(){
-
+  return UserModel.remove(query);
 }
 
 function removeAll(){
@@ -32,19 +33,17 @@ function removeAll(){
 }
 
 function index(){
-  return UserModel.findAsync({role : { $ne : 'admin' }});
-}
-
-function find(opts){
-
+  return UserModel.findAsync({});
 }
 
 function addProjectToUser(query, project){
-
-  return UserModel.findByIdAndUpdateAsync(query, {
+  var result = Joi.validate(project, ProjectValidator);
+  if(result.error){
+    return Promise.reject(boom.badData('Bad data', result.error.details));
+  }
+  return UserModel.findOneAndUpdateAsync(query, {
     $addToSet: {
-      someString : project
+      projects : project
     }
   }, { new:true });
-
 }

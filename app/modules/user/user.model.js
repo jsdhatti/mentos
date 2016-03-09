@@ -20,21 +20,22 @@ var projectSchema = mongoose.Schema({
       name:{
         type:String
       },
-      type:{
+      taskType:{
         type:String,
         lowercase:true,
-        //enum:['shell', 'git', 'notification']
+        enum:['shell', 'git', 'notification']
       },
       properties:{
-        url:String,
-        branch:String,
-        user:String,
-        pwd:String,
-        path:String,
-        command:String,
-        webHook:String,
-        slackChannel:String,
-        message:String
+        url:{type:String},
+        opType:{type:String},
+        branch:{type:String},
+        user:{type:String},
+        pwd:{type:String},
+        path:{type:String},
+        command:{type:String},
+        webHook:{type:String},
+        slackChannel:{type:String},
+        message:{type:String}
       }
     }
   ],
@@ -46,17 +47,17 @@ var projectSchema = mongoose.Schema({
       name:{
         type:String
       },
-      type:{
+      taskType:{
         type:String,
         lowercase:true
       },
       properties:{
-        url:String,
-        branch:String,
-        user:String,
-        pwd:String,
-        path:String,
-        command:String
+        url:{type:String},
+        branch:{type:String},
+        user:{type:String},
+        pwd:{type:String},
+        path:{type:String},
+        command:{type:String}
       }
     }
   ],
@@ -80,7 +81,6 @@ var UserSchema = mongoose.Schema({
     type:String,
     default:'user'
   },
-  someString:[String],
   password: String,
   salt: String,
   github: {},
