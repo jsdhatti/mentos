@@ -5,8 +5,9 @@ var assert = require('assert');
 var User = require('../app/facade/user');
 var db = require('../db');
 var should = require('should');
+var _ = require('lodash');
 
-var user = {
+var userModel = {
   firstName : 'Fake',
   lastName : 'User',
   email: 'test@example.com',
@@ -18,8 +19,10 @@ db.init('test');
 describe.only('User model functional test', ()=> {
 
   it('Should create user', ()=>{
-    return User.create(user)
+    return User.create(userModel)
       .then(user => {
+        userModel.id = user.id;
+        userModel = _.extend(userModel, user.toJSON());
         user.toObject().should.have.property('firstName', 'Fake');
         user.toObject().should.have.property('email', 'test@example.com');
       });
@@ -52,6 +55,7 @@ describe.only('User model functional test', ()=> {
     };
     return User.addProjectToUser({email:'test@example.com'}, project)
       .then(user => {
+        userModel = _.extend(userModel, user.toJSON());
         user.projects.length.should.be.greaterThan(0);
         user.projects[0].initialization.length.should.be.equal(1);
       });
@@ -76,6 +80,7 @@ describe.only('User model functional test', ()=> {
     };
     return User.addProjectToUser({email:'test@example.com'}, project)
       .then(user => {
+        userModel = _.extend(userModel, user.toJSON());
         user.projects.length.should.be.greaterThan(0);
         user.projects[0].initialization.length.should.be.equal(1);
       }, err =>{
@@ -83,14 +88,41 @@ describe.only('User model functional test', ()=> {
       });
   });
 
-  it.skip('update user', ()=>{
+  it('update user first Name & last name', ()=>{
+    userModel.firstName = 'Sharique';
+    userModel.lastName = 'Hasan';
+    return User.update(userModel.id, userModel)
+      .then(user=>{
+        userModel = _.extend(userModel, user.toJSON());
+        user.firstName.should.be.equal('Sharique');
+        user.lastName.should.be.equal('Hasan');
+      });
+  });
 
-
+  it('should update current project list with a workflow', ()=>{
+    userModel.projects[0].workflow = [].concat({
+      id:0,
+      name:'Sample repo pull',
+      taskType:'git',
+      properties:{
+        url:'https://github.com/shakefon/consistency.git',
+        opType:'pull',
+        folderPath:'/home/sharique/Work/TestGround',
+        branch:'master'
+      }
+    });
+    return User.update(userModel.id, userModel)
+      .then(user=>{
+        userModel = _.extend(userModel, user.toJSON());
+        console.log(userModel);
+        user.projects.length.should.be.greaterThan(0);
+        user.projects[0].workflow.length.should.be.greaterThan(0);
+        user.projects[0].workflow[0].name.should.be.equal('Sample repo pull');
+      });
   });
 
   after(()=>{
     User.removeAll();
   });
-
 
 });

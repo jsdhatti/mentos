@@ -7,6 +7,7 @@ var UserModel = require('../modules/user/user.model');
 var Joi = require('joi');
 var ProjectValidator = require('./validationSchemas/project');
 var boom = require('boom');
+var _ = require('lodash');
 
 exports.index = index;
 exports.create = create;
@@ -20,8 +21,26 @@ function create(payload){
   return user.saveAsync();
 }
 
-function update(query, dataSet){
-  return UserModel.findOneAndUpdateAsync(query, dataSet, { new:true });
+function update(id, data){
+  return new Promise((resolve, reject)=>{
+    UserModel.findByIdAsync(id)
+      .then(user => {
+        if(!user){
+          return reject(boom.notFound('user not found'));
+        }
+        var updatedUser = _.merge(user, data, (a, b)=>{
+          return b;
+        });
+        updatedUser.saveAsync()
+          .then(user=>{
+            return resolve(user);
+          }, err => {
+            return reject(boom.badImplementation());
+          });
+      }, err => {
+        return reject(boom.badImplementation());
+      });
+  });
 }
 
 function remove(){
