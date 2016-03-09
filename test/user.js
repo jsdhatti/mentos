@@ -53,7 +53,7 @@ describe.only('User model functional test', ()=> {
         }
       ]
     };
-    return User.addProjectToUser({email:'test@example.com'}, project)
+    return User.addProjectToUser(userModel.id, project)
       .then(user => {
         userModel = _.extend(userModel, user.toJSON());
         user.projects.length.should.be.greaterThan(0);
@@ -78,7 +78,7 @@ describe.only('User model functional test', ()=> {
         }
       ]
     };
-    return User.addProjectToUser({email:'test@example.com'}, project)
+    return User.addProjectToUser(userModel.id, project)
       .then(user => {
         userModel = _.extend(userModel, user.toJSON());
         user.projects.length.should.be.greaterThan(0);
@@ -114,7 +114,6 @@ describe.only('User model functional test', ()=> {
     return User.update(userModel.id, userModel)
       .then(user=>{
         userModel = _.extend(userModel, user.toJSON());
-        console.log(userModel);
         user.projects.length.should.be.greaterThan(0);
         user.projects[0].workflow.length.should.be.greaterThan(0);
         user.projects[0].workflow[0].name.should.be.equal('Sample repo pull');

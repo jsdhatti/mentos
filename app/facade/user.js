@@ -55,12 +55,12 @@ function index(){
   return UserModel.findAsync({});
 }
 
-function addProjectToUser(query, project){
+function addProjectToUser(id, project){
   var result = Joi.validate(project, ProjectValidator);
   if(result.error){
     return Promise.reject(boom.badData('Bad data', result.error.details));
   }
-  return UserModel.findOneAndUpdateAsync(query, {
+  return UserModel.findByIdAndUpdateAsync(id, {
     $addToSet: {
       projects : project
     }
