@@ -43,8 +43,8 @@ var config = {
     mongoUri: {
         $filter: 'env',
         production: process.env.MONGO_URI,
-        test: 'mongodb://localhost:27017/lummox-test',
-        $default: 'mongodb://127.0.0.1:27017/lummox'
+        test: 'mongodb://127.0.0.1:27017/mentos-test',
+        $default: 'mongodb://127.0.0.1:27017/mentos'
     },
     jwt: {
         $filter: 'env',
