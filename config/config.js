@@ -60,60 +60,8 @@ var config = {
         }
     },
     auth: {
-        scopes: ['admin', 'user-{params.userId}'],
-        getAll: {
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        getOne: {
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        getMe: {
-            strategy: 'jwt',
-            scope: ['user']
-        },
-        create: false,
-        update: {
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        delete: {
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        getScopes: {
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        createCategory:{
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        createQuestion:{
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        listQuestion:{
-            strategy: 'jwt',
-            scope: ['admin']
-        },
-        getAccessControl:{
-            strategy: 'jwt',
-            scope: ['user']
-        },
-        getProjects:{
-            strategy: 'jwt',
-            scope: ['admin', 'user']
-        },
-        bothAccess:{
-            strategy: 'jwt',
-            scope: ['admin', 'professional', 'customer']
-        },
-        applyProject:{
-            strategy: 'jwt',
-            scope: ['admin', 'professional']
-        }
+        scopes: ['admin', 'user'],
+        create: false
     },
     saltRounds: 10,
     swaggerOptions: {
