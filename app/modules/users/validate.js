@@ -24,7 +24,7 @@ module.exports = {
       .default('user'),
     projects:projectValidator().optional()
   },
-  projects:projectValidator()
+  projects:projectValidator().required()
 };
 
 function projectValidator(){

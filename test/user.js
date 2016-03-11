@@ -174,6 +174,25 @@ describe.only('User and project integration', ()=>{
     });
   });
 
+  it('should not registers a user due to bad data', function (done) {
+    var req = {
+      method: 'POST',
+      url: '/api/v1/users',
+      payload: {
+        lastName: 'Hasan',
+        role:'user',
+        email: 'ME@example.com',
+        password: '12345678'
+      }
+    };
+
+    Server.inject(req, function(res) {
+      res.statusCode.should.be.equal(400);
+      res.headers['content-type'].should.be.equal('application/json; charset=utf-8');
+      done();
+    });
+  });
+
   after(()=>{
     User.removeAll();
   });
