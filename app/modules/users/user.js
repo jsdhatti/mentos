@@ -1,7 +1,7 @@
 var Joi = require('joi'),
   Boom = require('boom'),
   Validate = require('./validate'),
-  //User = require('../../facade/users'),
+//User = require('../../facade/users'),
   Config = require('../../../config/config'),
   Handler = require('./handler'),
   UserModel = require('../../models/user');
@@ -178,32 +178,25 @@ exports.getMe = {
 };
 
 
-/*exports.update = {
- description: 'Update a user',
- notes: 'Returns an updated user',
- tags: ['api'],
- auth: Config.get('/auth/update'),
- handler: function(request, reply) {
- var User = UserModel.User;
- User.findOne({ _id: request.params.userId }, function(err, user) {
- if(err) return handleError(err, reply);
- if(!user) {
- return reply(Boom.notFound('No user found for that id'));
- }
- user.username = request.payload.username;
- user.email = request.payload.email;
- if(request.payload.password) {
- user.password = request.payload.password;
- }
- user.scope = request.payload.scope;
- user.active = request.payload.active;
- user.save(function(err, user) {
- if (err) return handleError(err, reply);
- return reply(user);
- });
- });
- }
- };*/
+exports.update = {
+    description: 'Update a user',
+    notes: 'Returns an updated user',
+    tags: ['api'],
+    auth: Config.get('/auth/update'),
+    validate: {
+        params: {
+            apiVersion: Joi.string()
+              .valid('v1').required()
+              .description('api version')
+        },
+        payload: Validate.createUser
+    },
+    handler: {
+        versioned: {
+            "v1.0": Handler.v1.ups
+        }
+    }
+};
 
 /*exports.delete = {
  description: 'Remove a user',

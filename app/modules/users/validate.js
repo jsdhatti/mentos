@@ -24,6 +24,25 @@ module.exports = {
       .default('user'),
     projects:projectValidator().optional()
   },
+  updateUser : {
+    email: Joi.string()
+      .email().required().description('A valid email address'),
+    password: Joi.string()
+      .min(8).required().description('A password. Must be at least 8 characters'),
+    active: Joi.boolean()
+      .description('A flag to see if the user is active.')
+      .default(true),
+    firstName: Joi.string()
+      .required()
+      .description('First Name is required'),
+    lastName: Joi.string()
+      .required()
+      .description('Last Name is required'),
+    role: Joi.string()
+      .required().valid('user', 'admin')
+      .default('user'),
+    projects:projectValidator().required()
+  },
   projects:projectValidator().required()
 };
 
