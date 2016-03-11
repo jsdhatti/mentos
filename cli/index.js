@@ -1,24 +1,31 @@
 #!/usr/bin/env node
+'use strict';
+
 var program = require('commander');
-var cmds = {};
+var colors = require('colors');
+var cli = require('require-all')(__dirname + '/lib');
+var command;
 
 program
 	.version('0.0.1')
-	.option('-p',"blaaaa")
+	.option('-p',"blaa")
 	.arguments('<cmd>')
 	.action(function (cmd) {
-		cmds.first = cmd;
+		command = cmd;
 	});
 
 program.parse(process.argv);
 
-if (!cmds || !cmds.first) {
-	console.error('no command given! Exiting...');
-	process.exit(1);
-}
-
-if(cmds.first === 'start'){
-	console.log("starting mentos....");
-}else if(cmds.first === 'stop'){
-	console.log("stopping mentos...");
+if (!command) {
+  console.log('no command entered..exiting....'.red);
+  process.exit(1);
+}else if(command === 'setup'){
+  cli.setup();
+}else if(command === 'start'){
+  cli.start();
+}else if(command === 'stop'){
+  cli.stop();
+}else{
+  console.log('command not supported..exiting....'.red);
+  process.exit(1);
 }

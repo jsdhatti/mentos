@@ -22,6 +22,7 @@
     "bluebird": "^3.3.3",
     "body-parser": "^1.15.0",
     "boom": "^3.1.2",
+    "colors": "^1.1.2",
     "commander": "^2.9.0",
     "confidence": "^1.4.2",
     "consistency": "github:sharique-hasan/consistency",
