@@ -1,8 +1,9 @@
 var Joi = require('joi'),
   Boom = require('boom'),
+  Validate = require('./validate'),
   //User = require('../../facade/users'),
   Config = require('../../../config/config'),
-  Handler = require('./handler');
+  Handler = require('./handler'),
   UserModel = require('../../models/user');
 
 var handleError = function(err, callback) {
@@ -21,9 +22,9 @@ exports.getAll = {
     validate:{
         headers:Joi.object({
             Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
+              .default('XXXXXXX')
+              .description('Api token')
+              .example('XXXXXXX')
         }).options({ allowUnknown: true }),
         params:{
             apiVersion : Joi.string().valid(['v1']).description('api version')
@@ -46,9 +47,9 @@ exports.getOne = {
     validate:{
         headers:Joi.object({
             Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
+              .default('XXXXXXX')
+              .description('Api token')
+              .example('XXXXXXX')
         }).options({ allowUnknown: true }),
         params:{
             apiVersion : Joi.string().valid(['v1']).description('api version')
@@ -73,59 +74,11 @@ exports.create = {
     auth: Config.get('/auth/create'),
     validate: {
         params:{
-            apiVersion : Joi.string().valid(['v1']).description('api version')
+            apiVersion: Joi.string()
+              .valid('v1').required()
+              .description('api version')
         },
-        payload: {
-            email: Joi.string().email().required().description('A valid email address'),
-            password: Joi.string().min(8).required().description('A password. Must be at least 8 characters'),
-            active: Joi.boolean()
-              .description('A flag to see if the user is active.')
-              .default(false),
-            firstName: Joi.string()
-              .required()
-              .description('First Name is required'),
-            lastName: Joi.string()
-              .required()
-              .description('Last Name is required'),
-            role: Joi.string()
-              .required().valid('professional'),
-            category:Joi.array()
-              .required()
-              .min(1)
-              .items(Joi.string().required().min(24).max(24)),
-            subCategory:Joi.array()
-              .required()
-              .min(1)
-              .items(Joi.object().keys({
-                  parent : Joi.string()
-                    .required()
-                    .min(24)
-                    .max(24),
-                  category : Joi.string()
-                    .required()
-                    .min(24)
-                    .max(24)
-              })),
-            dob:Joi.date().iso().required().max('now'),
-            workPreferences : Joi.object().required().keys({
-                preferences : Joi.object().required().keys({
-                    toMe : Joi.boolean().required(),
-                    toCustomer : Joi.boolean().required()
-                }),
-                location : Joi.object().required().keys({
-                    city:Joi.string().required().min(1).max(50),
-                    area:Joi.string().required().min(1).max(100),
-                    street:Joi.string().required().min(1).max(100),
-                    nearestLandMark:Joi.string().min(1).max(100),
-                    latitude:Joi.number().required(),
-                    longitude:Joi.number().required()
-                }),
-                travelLimit:Joi.object().keys({
-                    limit:Joi.number(),
-                    unit:Joi.string().uppercase().max(3).default('KM')
-                })
-            })
-        }
+        payload: Validate.createUser
     },
     handler: {
         versioned: {
@@ -134,28 +87,18 @@ exports.create = {
     }
 };
 
-exports.createCustomer = {
-    description: 'Create a customer user',
-    notes: 'Create a customer type of user',
+exports.createProject = {
+    description: 'Create a single project for a user',
+    notes: 'Create a single project for a user with initialization and workflow',
     tags: ['api'],
-    auth: Config.get('/auth/create'),
+    auth: Config.get('/auth/createProject'),
     validate: {
-        params:{
-            apiVersion : Joi.string().valid('v1').description('api version')
+        params: {
+            apiVersion: Joi.string()
+              .valid('v1').required()
+              .description('api version')
         },
-        payload: {
-            email: Joi.string().email().required().description('A valid email address'),
-            password: Joi.string().min(8).required().description('A password. Must be at least 8 characters'),
-            firstName: Joi.string()
-              .required()
-              .description('First Name is required'),
-            role: Joi.string()
-              .required().valid('customer'),
-            lastName: Joi.string()
-              .required()
-              .description('Last Name is required'),
-            dob:Joi.date().iso().required().max('now')
-        }
+        payload: Validate.projects
     },
     handler: {
         versioned: {
@@ -196,9 +139,9 @@ exports.tokenAccess = {
     validate:{
         headers:Joi.object({
             Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
+              .default('XXXXXXX')
+              .description('Api token')
+              .example('XXXXXXX')
         }).options({ allowUnknown: true }),
         params:{
             apiVersion : Joi.string().valid('v1').description('api version')
@@ -211,27 +154,6 @@ exports.tokenAccess = {
     }
 };
 
-exports.accessControlList = {
-    description: 'Get access control list',
-    notes: 'Get access control list',
-    tags: ['api'],
-    auth: Config.get('/auth/getAccessControl'),
-    validate:{
-        headers:Joi.object({
-            Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
-        }).options({ allowUnknown: true }),
-        params:{
-            apiVersion : Joi.string().valid(['v1']).description('api version')
-        }
-    },
-    handler: function(request, reply) {
-        reply(Config.get('/accessControl'));
-    }
-};
-
 exports.getMe = {
     description: 'Returns user object',
     notes: 'Returns user object from token',
@@ -240,9 +162,9 @@ exports.getMe = {
     validate:{
         headers:Joi.object({
             Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
+              .default('XXXXXXX')
+              .description('Api token')
+              .example('XXXXXXX')
         }).options({ allowUnknown: true }),
         params:{
             apiVersion : Joi.string().valid(['v1']).description('api version')
@@ -255,86 +177,61 @@ exports.getMe = {
     }
 };
 
-exports.getUsersByIdOfProject = {
-    description: 'Returns user details of provided project id',
-    notes: 'Returns user details of provided project id',
-    tags: ['api'],
-    auth: Config.get('/auth/bothAccess'),
-    validate:{
-        headers:Joi.object({
-            Authorization :Joi.string()
-                .default('XXXXXXX')
-                .description('Api token')
-                .example('XXXXXXX')
-        }).options({ allowUnknown: true }),
-        params:{
-            apiVersion : Joi.string().valid(['v1']).description('api version')
-        },
-        query : Joi.object().keys({
-            project : Joi.string().required().min(24).max(24)
-        })
-    },
-    handler: {
-        versioned:{
-            "v1.0" : Handler.v1.getUsersByIdOfProject
-        }
-    }
-};
 
 /*exports.update = {
-    description: 'Update a user',
-    notes: 'Returns an updated user',
-    tags: ['api'],
-    auth: Config.get('/auth/update'),
-    handler: function(request, reply) {
-        var User = UserModel.User;
-        User.findOne({ _id: request.params.userId }, function(err, user) {
-            if(err) return handleError(err, reply);
-            if(!user) {
-                return reply(Boom.notFound('No user found for that id'));
-            }
-            user.username = request.payload.username;
-            user.email = request.payload.email;
-            if(request.payload.password) {
-                user.password = request.payload.password;
-            }
-            user.scope = request.payload.scope;
-            user.active = request.payload.active;
-            user.save(function(err, user) {
-                if (err) return handleError(err, reply);
-                return reply(user);
-            });
-        });
-    }
-};*/
+ description: 'Update a user',
+ notes: 'Returns an updated user',
+ tags: ['api'],
+ auth: Config.get('/auth/update'),
+ handler: function(request, reply) {
+ var User = UserModel.User;
+ User.findOne({ _id: request.params.userId }, function(err, user) {
+ if(err) return handleError(err, reply);
+ if(!user) {
+ return reply(Boom.notFound('No user found for that id'));
+ }
+ user.username = request.payload.username;
+ user.email = request.payload.email;
+ if(request.payload.password) {
+ user.password = request.payload.password;
+ }
+ user.scope = request.payload.scope;
+ user.active = request.payload.active;
+ user.save(function(err, user) {
+ if (err) return handleError(err, reply);
+ return reply(user);
+ });
+ });
+ }
+ };*/
 
 /*exports.delete = {
-    description: 'Remove a user',
-    notes: 'Returns a user deleted message',
-    tags: ['api'],
-    auth: Config.get('/auth/delete'),
-    handler: function(request, reply) {
+ description: 'Remove a user',
+ notes: 'Returns a user deleted message',
+ tags: ['api'],
+ auth: Config.get('/auth/delete'),
+ handler: function(request, reply) {
 
-        var User = UserModel.User;
-        User.findOne({ _id: request.params.userId }, function(err, user) {
-            if(err) return handleError(err, reply);
-            if(!user) {
-                return reply(Boom.notFound('No user found for that id'));
-            }
-            user.remove(function(err, user) {
-                if(err) return handleError(err, reply);
-                return reply({ message: 'User was successfully deleted' });
-            });
-        });
-    }
-};*/
+ var User = UserModel.User;
+ User.findOne({ _id: request.params.userId }, function(err, user) {
+ if(err) return handleError(err, reply);
+ if(!user) {
+ return reply(Boom.notFound('No user found for that id'));
+ }
+ user.remove(function(err, user) {
+ if(err) return handleError(err, reply);
+ return reply({ message: 'User was successfully deleted' });
+ });
+ });
+ }
+ };*/
 
 /*exports.getScopes = {
-    description: 'Get user scopes',
-    notes: 'Returns an array of configured user scopes',
-    tags: ['api'],
-    auth: Config.get('/auth/getScopes'),
-    handler: function(request, reply) {
-        reply(Config.get('/auth/scopes'));
-    }
-};*/
+ description: 'Get user scopes',
+ notes: 'Returns an array of configured user scopes',
+ tags: ['api'],
+ auth: Config.get('/auth/getScopes'),
+ handler: function(request, reply) {
+ reply(Config.get('/auth/scopes'));
+ }
+ };*/

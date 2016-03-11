@@ -1,119 +1,96 @@
 var crypto = require('crypto');
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var Promise = require('bluebird');
+var mongoose = Promise.promisifyAll(require('mongoose'));
 
 function toLower (v) {
     return v.toLowerCase();
 }
 
-var UserSchema = new Schema({
+var projectSchema = mongoose.Schema({
+    name:{
+        type:String
+    },
+    technology:{
+        type:String
+    },
+    initialization:[
+        {
+            id:{
+                type:Number
+            },
+            name:{
+                type:String
+            },
+            taskType:{
+                type:String,
+                lowercase:true,
+                enum:['shell', 'git', 'notification']
+            },
+            properties:{
+                url:{type:String},
+                opType:{type:String},
+                branch:{type:String},
+                user:{type:String},
+                pwd:{type:String},
+                path:{type:String},
+                command:{type:String},
+                webHook:{type:String},
+                slackChannel:{type:String},
+                message:{type:String}
+            }
+        }
+    ],
+    workFlow:[
+        {
+            id:{
+                type:Number
+            },
+            name:{
+                type:String
+            },
+            taskType:{
+                type:String,
+                lowercase:true
+            },
+            properties:{
+                url:{type:String},
+                branch:{type:String},
+                user:{type:String},
+                pwd:{type:String},
+                path:{type:String},
+                command:{type:String}
+            }
+        }
+    ],
+    builds : []
+});
+
+var UserSchema = mongoose.Schema({
+
+    email : {
+        type:String,
+        lowercase:true,
+        required:true
+    },
     firstName:{
-        type: String,
-        required: true
+        type:String
     },
     lastName:{
-        type: String,
-        required: true
+        type:String
     },
-    email: {
-        type: String,
-        unique: true,
-        required: true,
-        set: toLower
+    role:{
+        type:String,
+        default:'user'
     },
     hashedPassword:{
         type:String
     },
     salt:{
-      type:String
-    },
-    jti: {
-        type: String
-    },
-    scope: {
-        type: Array,
-        default:['user']
-    },
-    role:{
         type:String
     },
-    active: {
-        type: Boolean,
-        default:true
-    },
-    profilePhoto:{
-        type:String,
-        ref:'gallery'
-    },
-    reviews:[
-        {
-            customer:{
-                type:String,
-                ref:'user'
-            },
-            review:{
-                type:String
-            }
-        }
-    ],
-    dob:{
-        type:Date
-    },
-    phone:{
-        type:String
-    },
-    serviceDescription:[{
-        businessName:{
-            type:String
-        },
-        description:{
-            type:String
-        },
-        coverLetter:{
-            type:String
-        }
-    }],
-    category:[
-        {
-            type:String,
-            ref:'category'
-        }
-    ],
-    subCategory:[
-        {
-            parent:{
-                type:String,
-                ref:'category'
-            },
-            category:{
-                type:String
-            }
-        }
-    ],
-    workPreferences : {
-        preferences : {
-            toMe:Boolean,
-            toCustomer:Boolean
-        },
-        location:{
-            city:String,
-            area:String,
-            street:String,
-            nearestLandMark:String,
-            latitude:Number,
-            longitude:Number
-        },
-        travelLimit:{
-            limit:Number,
-            unit:String
-        }
-    },
-    projects:[
-        {
-            type:String,
-            ref:'project'
-        }
-    ]
+    github: {},
+    bitbucket:{},
+    projects:[projectSchema]
 },{ timestamps: true });
 
 /**
@@ -192,6 +169,6 @@ var validatePresenceOf = function(value) {
     return value && value.length;
 };
 
-var user = mongoose.model('user', UserSchema);
+var user = mongoose.model('User', UserSchema);
 
 module.exports = { User : user };

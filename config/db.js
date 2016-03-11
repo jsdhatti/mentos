@@ -1,9 +1,11 @@
 var Mongoose = require('mongoose'),
     Config = require('./config');
 
-Mongoose.connect(Config.get('/mongoUri'));
-var db = Mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
+exports.connect = function(criteria){
 
-exports.Mongoose = Mongoose;
-exports.db = db;
+  Mongoose.connect(Config.get('/mongoUri', criteria));
+  var db = Mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error'));
+  return db;
+
+};

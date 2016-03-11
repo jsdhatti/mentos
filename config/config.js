@@ -1,6 +1,5 @@
 var Confidence  = require('confidence'),
-    Package       = require('../../package')
-    ;
+    Package       = require('../../package');
 
 var criteria = {
     env: process.env.NODE_ENV
@@ -61,7 +60,8 @@ var config = {
     },
     auth: {
         scopes: ['admin', 'user'],
-        create: false
+        create: false,
+        createProject: ['admin', 'user']
     },
     saltRounds: 10,
     swaggerOptions: {
