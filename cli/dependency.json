@@ -1,18 +1,22 @@
 [
   {
+    "name": "n",
+    "i": "npm i n -g"
+  },
+  {
     "name": "node$5.0.0",
-    "i": "npm intall"
+    "i": "n 5.0.0"
   },
   {
     "name": "git",
-    "i": "npm intall"
+    "i": "apt-get install git"
   },
   {
     "name": "pm2",
-    "i": "npm intall"
+    "i": "npm i pm2 -g"
   },
   {
-    "name": "mongo$3.0.3",
-    "i": "npm intall"
+    "name": "mongo",
+    "i": "apt-get install mongodb"
   }
 ]

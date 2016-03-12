@@ -6,6 +6,8 @@ var logger = require('../helper/logger').init();
 var Shell = require('../../lib/Shell');
 var colors = require('colors');
 var _ = require('lodash');
+var async = require('async');
+var os = require('os');
 
 module.exports = function(pkgs){
   logger.log('info','setting up mentos...');
@@ -20,7 +22,6 @@ module.exports = function(pkgs){
         let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
         res = (res)? res.toLowerCase() : '';
         if(res && validYes.indexOf(res) >= 0){
-          logger.log('info',`intalling ${_.map(result.missing, 'name').join(', ')}...`);
           install(result.missing);
         }else{
           logger.log('info',`said no`);
@@ -67,7 +68,33 @@ function checkDependencies(packages){
 }
 
 function install(packages){
-  _.each(packages, function(pkg){
-
+  var tasks = [];
+  _.each(packages, function(p){
+    console.log(p.name);
+  });
+  _.each(packages, function(_package){
+    (function(pkg){
+      tasks.push(function(callback){
+        var i = pkg.i;
+        if(os.type() === 'Darwin'){
+          i = i.replace('apt-get', 'brew');
+        }
+        logger.log('info',`installing ${pkg.name} => ${pkg.i}`.yellow);
+        Shell.exec(`${i}`, {async: true, silent: true}, null, (data)=>{
+          logger.log('info', data);
+        }).then(()=>{
+            logger.log('info', `${pkg.name} installed successfully`.bgGreen);
+            return callback();
+          }, (err)=>{
+            return callback(err);
+          });
+      });
+    })(_package);
+  });
+  async.series(tasks, (err, result)=>{
+    if(err){
+      logger.log('error', "Error occured...".bgRed);
+    }
+    logger.log('info', 'All packages installed successfully...'.bgGreen);
   });
 }
