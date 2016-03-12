@@ -4,6 +4,7 @@
 var program = require('commander');
 var colors = require('colors');
 var cli = require('require-all')(__dirname + '/lib');
+let dependencies = require('./dependency.json');
 var command;
 
 program
@@ -20,7 +21,7 @@ if (!command) {
   console.log('no command entered..exiting....'.red);
   process.exit(1);
 }else if(command === 'setup'){
-  cli.setup();
+  cli.setup(dependencies);
 }else if(command === 'start'){
   cli.start();
 }else if(command === 'stop'){
