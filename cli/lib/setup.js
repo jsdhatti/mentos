@@ -69,9 +69,6 @@ function checkDependencies(packages){
 
 function install(packages){
   var tasks = [];
-  _.each(packages, function(p){
-    console.log(p.name);
-  });
   _.each(packages, function(_package){
     (function(pkg){
       tasks.push(function(callback){
