@@ -14,11 +14,16 @@ module.exports = function(pkgs, forced){
   storage.init({path: 'cli/storage'})
     .then(()=>{
       if(storage.get('isSetup') && !forced){
-        logger.log('info',`Setup already completed`);
+        logger.log('info',`Setup already completed`.yellow);
         return;
       }
 
-      logger.log('info','setting up mentos...');
+      if(forced){
+        logger.log('info','setting up mentos again...'.yellow);
+      }else{
+        logger.log('info','setting up mentos...');
+      }
+
       let result = checkDependencies(pkgs);
 
       if(result.missing.length){

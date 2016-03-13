@@ -4,13 +4,12 @@ var pm2 = require('pm2');
 var logger = require('../helper/logger').init();
 var Shell = require('../../lib/Shell');
 var colors = require('colors');
-const url = 'localhost:7030';
 var storage = require('../lib/localstorage');
-const frontendApp = 'mentos-frontend';
+var pm2 = require('pm2');
+const url = 'localhost:7030';
 
 module.exports = function(args){
   console.log('starting mentos...');
-  var pm2 = require('pm2');
 
   pm2.connect(function(err) {
     if (err) {
@@ -22,10 +21,13 @@ module.exports = function(args){
       .then(()=>{
         if(storage.get('isStarted')){
           let process = storage.get('processInfo');
+
           pm2.stop(process.pm2pid, (err, proc)=>{
-            logger.log('info','mentos process stopped'.green);
             storage.add('isStarted', false);
+
             Shell.cmd().exec('pm2 list');
+            logger.log('info','mentos process stopped'.green);
+
             pm2.disconnect();
           });
         }else{

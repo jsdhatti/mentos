@@ -9,7 +9,7 @@ var command;
 
 program
 	.version('0.0.1')
-	.option('-f', '--force', 'force setup')
+	.option('-f, --force', 'force setup')
 	.arguments('<cmd>')
 	.action(function (cmd) {
 		command = cmd;
@@ -22,7 +22,7 @@ if (!command) {
   process.exit(1);
 }else if(command === 'setup'){
 
-  cli.setup(dependencies);
+  cli.setup(dependencies, program.force);
 
 }else if(command === 'start'){
 
