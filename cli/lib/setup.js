@@ -8,28 +8,38 @@ var colors = require('colors');
 var _ = require('lodash');
 var async = require('async');
 var os = require('os');
+var storage = require('../lib/localstorage');
 
-module.exports = function(pkgs){
-  logger.log('info','setting up mentos...');
+module.exports = function(pkgs, forced){
+  storage.init({path: 'cli/storage'})
+    .then(()=>{
+      if(storage.get('isSetup') && !forced){
+        logger.log('info',`Setup already completed`);
+        return;
+      }
 
-  let result = checkDependencies(pkgs);
+      logger.log('info','setting up mentos...');
+      let result = checkDependencies(pkgs);
 
-  if(result.missing.length){
-    ask({
-      prop: 'input',
-      text: `do you want to install missing packages (yes/no)? NOTE: no will exit setup`
-    }).then((res)=>{
-        let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
-        res = (res)? res.toLowerCase() : '';
-        if(res && validYes.indexOf(res) >= 0){
-          install(result.missing);
-        }else{
-          logger.log('info',`said no`);
-        }
-      });
-  }else{
-    logger.log('info',`all ok`);
-  }
+      if(result.missing.length){
+        ask({
+          prop: 'input',
+          text: `do you want to install missing packages (yes/no)? NOTE: no will exit setup`
+        }).then((res)=>{
+            let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
+            res = (res)? res.toLowerCase() : '';
+            if(res && validYes.indexOf(res) >= 0){
+              install(result.missing);
+            }else{
+              logger.log('info',`said no`);
+            }
+          });
+      }else{
+        storage.add('isSetup', true);
+      }
+    }).catch((err)=>{
+      console.error(err);
+    });
 };
 
 function checkDependencies(packages){
@@ -40,8 +50,8 @@ function checkDependencies(packages){
   };
 
   _.each(packages, function(pkg, i){
-    let name = pkg.name.split('$')[0];
-    let version = pkg.name.split('$')[1];
+    let name = pkg.name.split('@')[0];
+    let version = pkg.name.split('@')[1];
     if(Shell.cmd().which(name)){
       if(version){
         let installed = Shell.cmd()
@@ -93,5 +103,6 @@ function install(packages){
       logger.log('error', "Error occured...".bgRed);
     }
     logger.log('info', 'All packages installed successfully...'.bgGreen);
+    storage.add('isSetup', true);
   });
 }

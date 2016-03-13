@@ -9,7 +9,7 @@ var command;
 
 program
 	.version('0.0.1')
-	.option('-p',"blaa")
+	.option('-f', '--force', 'force setup')
 	.arguments('<cmd>')
 	.action(function (cmd) {
 		command = cmd;
@@ -21,11 +21,17 @@ if (!command) {
   console.log('no command entered..exiting....'.red);
   process.exit(1);
 }else if(command === 'setup'){
+
   cli.setup(dependencies);
+
 }else if(command === 'start'){
+
   cli.start();
+
 }else if(command === 'stop'){
+
   cli.stop();
+
 }else{
   console.log('command not supported..exiting....'.red);
   process.exit(1);

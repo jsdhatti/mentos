@@ -4,3 +4,4 @@ node_modules
 test/results.txt
 /logs
 cli/logs/
+cli/storage
