@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 'use strict';
 
-var program = require('commander');
-var colors = require('colors');
-var cli = require('require-all')(__dirname + '/lib');
-let dependencies = require('./dependency.json');
+const program = require('commander');
+const colors = require('colors');
+const cli = require('require-all')(__dirname + '/lib');
+const dependencies = require('./dependency.json');
 var command;
 
 program

@@ -1,14 +1,14 @@
 
 'use strict';
 
-var ask = require('../helper/ask');
-var logger = require('../helper/logger').init();
-var Shell = require('../../lib/Shell');
-var colors = require('colors');
-var _ = require('lodash');
-var async = require('async');
-var os = require('os');
-var storage = require('../lib/localstorage');
+const ask = require('../helper/ask');
+const logger = require('../helper/logger').init();
+const Shell = require('../../lib/Shell');
+const colors = require('colors');
+const _ = require('lodash');
+const async = require('async');
+const os = require('os');
+const storage = require('../lib/localstorage');
 
 module.exports = function(pkgs, forced){
   storage.init({path: 'cli/storage'})
@@ -50,7 +50,7 @@ module.exports = function(pkgs, forced){
 function checkDependencies(packages){
   logger.log('info','required packages');
 
-  var result = {
+  let result = {
     missing: []
   };
 
@@ -83,11 +83,11 @@ function checkDependencies(packages){
 }
 
 function install(packages){
-  var tasks = [];
+  let tasks = [];
   _.each(packages, function(_package){
     (function(pkg){
       tasks.push(function(callback){
-        var i = pkg.i;
+        let i = pkg.i;
         if(os.type() === 'Darwin'){
           i = i.replace('apt-get', 'brew');
         }

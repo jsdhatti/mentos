@@ -1,10 +1,10 @@
 'use strict';
 
-var pm2 = require('pm2');
-var logger = require('../helper/logger').init();
-var Shell = require('../../lib/Shell');
-var colors = require('colors');
-var storage = require('./localstorage');
+const pm2 = require('pm2');
+const logger = require('../helper/logger').init();
+const Shell = require('../../lib/Shell');
+const colors = require('colors');
+const storage = require('./localstorage');
 const url = 'localhost:7030';
 const frontendApp = 'mentos-frontend';
 

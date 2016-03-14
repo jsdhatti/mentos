@@ -8,8 +8,8 @@ module.exports.read = read;
 
 /////////////////////////////
 
-var _ = require('lodash');
-var fs = require('fs');
+const _ = require('lodash');
+const fs = require('fs');
 const filename = 'dat.json';
 var _storage;
 var file;
@@ -37,7 +37,7 @@ function add(){
 
 function del(obj){
   if(!_storage) throw 'storage not initiated';
-  var key = (typeof obj === 'object')? obj.key : obj;
+  let key = (typeof obj === 'object')? obj.key : obj;
   let deleted = clone(_storage[key]);
   delete _storage[key];
   update();
@@ -71,7 +71,7 @@ function init(opts){
   if(!opts || !opts.path) throw 'path not supplied';
 
   return new Promise((resolve, reject)=>{
-    var _path = opts.path;
+    let _path = opts.path;
     file = `${_path}/${filename}`;
 
     fs.stat(file, function(err, stat) {
