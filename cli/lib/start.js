@@ -21,7 +21,7 @@ module.exports = function(args){
           logger.log('error','mentos requied packages are missing. Run "mentos setup" to install...'.red);
           pm2.disconnect();
         }else if(storage.get('isStarted')){
-          logger.log('info','mentos already running'.yellow);
+          logger.log('info','mentos already running...use "mentos restart" to start process again'.yellow);
           pm2.disconnect();
         }else{
           logger.log('info','starting mentos...');

@@ -14,7 +14,7 @@ module.exports = function(pkgs, forced){
   storage.init({path: 'cli/storage'})
     .then(()=>{
       if(storage.get('isSetup') && !forced){
-        logger.log('info',`Setup already completed`.yellow);
+        logger.log('info',`Setup already completed...use "mentos setup -f" to force setup`.yellow);
         return;
       }
 

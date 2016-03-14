@@ -28,6 +28,10 @@ if (!command) {
 
   cli.start();
 
+}else if(command === 'restart'){
+
+  cli.restart();
+
 }else if(command === 'stop'){
 
   cli.stop();
