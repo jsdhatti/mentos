@@ -30,7 +30,7 @@ module.exports = function(pkgs, forced){
         ask({
           prop: 'input',
           text: `do you want to install missing packages (yes/no)? NOTE: no will exit setup`
-        }).then((res)=>{
+        }).then(res => {
             let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
             res = (res)? res.toLowerCase() : '';
             if(res && validYes.indexOf(res) >= 0){
@@ -42,7 +42,7 @@ module.exports = function(pkgs, forced){
       }else{
         storage.add('isSetup', true);
       }
-    }).catch((err)=>{
+    }).catch(err => {
       console.error(err);
     });
 };
