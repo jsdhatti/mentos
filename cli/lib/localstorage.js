@@ -24,6 +24,8 @@ function get(key){
 function add(){
   if(!_storage) throw 'storage not initiated';
   let args = arguments;
+
+  // Destructure assignment(es6) of arguments
   if(args.length === 2){
     _storage[args[0]] = args[1];
   }else if(args.length === 1){
