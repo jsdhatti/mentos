@@ -6,7 +6,7 @@ Composer(function (err, server) {
     throw err;
   }
 
-  db.db.once('open', function callback() {
+  db.connect().once('open', function callback() {
     console.log("Connection with database succeeded.");
     server.start(function () {
       console.log('Started the USER service:' + server.info.uri);

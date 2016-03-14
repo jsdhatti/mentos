@@ -36,8 +36,6 @@ exports.v1 = {
           return handleError(err, reject);
         });
     });
-
-
   },
 
   refreshToken:function(payload){

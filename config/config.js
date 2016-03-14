@@ -13,7 +13,7 @@ var config = {
         $filter: 'env',
         production: process.env.PORT,
         test: 9000,
-        $default: 5000
+        $default: 5050
     },
     server: {
         debug: {
@@ -93,11 +93,11 @@ var config = {
 var store = new Confidence.Store(config);
 
 
-exports.get = function (key) {
+exports.get = function (key, criteria) {
     return store.get(key, criteria);
 };
 
 
-exports.meta = function (key) {
+exports.meta = function (key, criteria) {
     return store.meta(key, criteria);
 };

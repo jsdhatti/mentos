@@ -134,7 +134,7 @@ describe('User model functional test', ()=> {
 
 });
 
-describe.only('User and project integration', ()=>{
+describe('User and project integration', ()=>{
   before((done)=>{
     Composer((err, server) =>{
       Server = server;
