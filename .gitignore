@@ -5,3 +5,8 @@ test/results.txt
 /logs
 cli/logs/
 cli/storage
+front-end/jspm_packages
+front-end/node_modules
+front-end/build
+front-end/doc
+front-end/dist
