@@ -26,7 +26,8 @@ function prepareManifestAccordingToCriteria(crit){
         uriParam: 'apiVersion',
         customHeaderKey: 'api-version'
       },
-      './app/modules/users':{}
+      './app/modules/users':{},
+      './app/modules/static':{}
     }
   };
 }
