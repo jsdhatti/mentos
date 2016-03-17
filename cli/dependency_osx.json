@@ -9,7 +9,7 @@
   },
   {
     "name": "git",
-    "install": "apt-get install git"
+    "install": "brew install git"
   },
   {
     "name": "pm2",
@@ -17,6 +17,6 @@
   },
   {
     "name": "mongo",
-    "install": "apt-get install mongodb"
+    "install": "brew install mongodb"
   }
 ]

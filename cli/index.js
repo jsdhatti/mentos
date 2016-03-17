@@ -4,7 +4,7 @@
 const program = require('commander');
 const colors = require('colors');
 const cli = require('require-all')(__dirname + '/lib');
-const dependencies = require('./dependency.json');
+const os = require('os');
 var command;
 
 program
@@ -22,6 +22,7 @@ if (!command) {
   process.exit(1);
 }else if(command === 'setup'){
 
+  let dependencies = (os.type() === 'Darwin')? require('./dependency_osx.json') : require('./dependency.json');
   cli.setup(dependencies, program.force);
 
 }else if(command === 'start'){
