@@ -6,9 +6,9 @@ var Shell = require('../lib/Shell');
 var testground = `${path.stepBack(__dirname, 2)}/testground`;
 
 describe('GitTask - clone', function(){
-  this.timeout(60000);
+  this.timeout(20000);
   before(function(){
-    Shell.cmd().exec(`rm -r ${testground}`);
+    Shell.cmd().exec(`rm -rf ${testground}`);
   });
   beforeEach(function(){
 
@@ -33,6 +33,6 @@ describe('GitTask - clone', function(){
     });
   });
   after(function() {
-    Shell.cmd().exec(`rm -r ${testground}`);
+    Shell.cmd().exec(`rm -rf ${testground}`);
   });
 });

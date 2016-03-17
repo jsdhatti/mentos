@@ -12,7 +12,7 @@ module.exports = function(grunt) {
           quiet: false,
           clearRequireCache: false
         },
-        src: ['modules/**/test/*.js', 'test/*.js']
+        src: ['test/*.js']
       }
     },
     jshint: {
@@ -21,6 +21,6 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', 'mochaTest');
-  grunt.registerTask('li nt', 'jshint');
+  grunt.registerTask('lint', 'jshint');
 
 };

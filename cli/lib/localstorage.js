@@ -73,7 +73,6 @@ function init(opts){
   return new Promise((resolve, reject)=>{
     let _path = opts.path;
     file = `${_path}/${filename}`;
-
     fs.stat(file, function(err, stat) {
       if(err == null) {
         fs.readFile(file, (err, data)=>{
