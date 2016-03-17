@@ -33,6 +33,6 @@ describe('GitTask - clone', function(){
     });
   });
   after(function() {
-
+    Shell.cmd().exec(`rm -r ${testground}`);
   });
 });
