@@ -1,5 +1,5 @@
 var Confidence  = require('confidence'),
-    Package       = require('../../package');
+    Package       = require('../package');
 
 var criteria = {
     env: process.env.NODE_ENV
