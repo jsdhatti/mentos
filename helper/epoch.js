@@ -3,7 +3,7 @@
 var moment = require('moment');
 
 function ms(){
-	return moment().valueOf();
+  return moment().valueOf();
 }
 
 module.exports.ms = ms;

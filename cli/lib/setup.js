@@ -31,14 +31,14 @@ module.exports = function(pkgs, forced){
           prop: 'input',
           text: `do you want to install missing packages (yes/no)? NOTE: no will exit setup`
         }).then(res => {
-            let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
-            res = (res)? res.toLowerCase() : '';
-            if(res && validYes.indexOf(res) >= 0){
-              install(result.missing);
-            }else{
-              logger.log('info',`said no`);
-            }
-          });
+          let validYes = ['yes', 'y', 'yup', 'yep', 'yo', 'obviously', 'ok', 'hmm'];
+          res = (res)? res.toLowerCase() : '';
+          if(res && validYes.indexOf(res) >= 0){
+            install(result.missing);
+          }else{
+            logger.log('info',`said no`);
+          }
+        });
       }else{
         storage.add('isSetup', true);
       }
@@ -95,11 +95,11 @@ function install(packages){
         Shell.exec(`${i}`, {async: true, silent: true}, null, (data)=>{
           logger.log('info', data);
         }).then(()=>{
-            logger.log('info', `${pkg.name} installed successfully`.bgGreen);
-            return callback();
-          }, (err)=>{
-            return callback(err);
-          });
+          logger.log('info', `${pkg.name} installed successfully`.bgGreen);
+          return callback();
+        }, (err)=>{
+          return callback(err);
+        });
       });
     })(_package);
   });

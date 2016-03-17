@@ -8,7 +8,7 @@ module.exports = function(params){
     prompt.get({
       properties: {
         [params.prop]: {
-         description: params.text
+          description: params.text
         }
       }
     }, function (err, result) {

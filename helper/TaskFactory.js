@@ -16,7 +16,7 @@ function create(item){
       username: props.user,
       password: props.pwd
     }, {
-			url: props.url,
+      url: props.url,
       opType: props.opType || 'pull',
       branch: props.branch,
       folderPath: props.folderPath
